@@ -1,0 +1,36 @@
+[project]
+name = "microduck-with-rss"
+version = "0.1.0"
+description = "A real-to-sim twin of a desk at home, built by Codex in RoboSimStudio, with Pollen Robotics' Microduck to play with in it"
+readme = "README.md"
+license = "Apache-2.0"
+requires-python = ">=3.12"
+dependencies = [
+    # RoboSimStudio at the commit this was made with; [rtx] is the path tracer behind the page's World model view.
+    "robosimstudio[rtx] @ git+https://github.com/KeplerC/robosimstudio.git@e3db6cf471ffdb16fd5258b4a2cb8d89fdaf590e",
+    # The duck's own policies are ONNX graphs.
+    "onnxruntime>=1.20",
+]
+
+# A folder of scripts, not a package: `uv run home.py` from the checkout.
+[tool.uv]
+package = false
+
+# ovrtx comes from NVIDIA's index, and nothing else may.
+[tool.uv.sources]
+ovrtx = { index = "nvidia" }
+
+[[tool.uv.index]]
+name = "nvidia"
+url = "https://pypi.nvidia.com"
+explicit = true
+
+[tool.ruff]
+line-length = 120
+extend-exclude = ["home_desk"]  # the twin as Codex wrote it
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "RUF"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["assets", "duck", "keys", "play", "sock"]

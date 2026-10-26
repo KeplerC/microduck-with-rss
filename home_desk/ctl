@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# This twin's command line: the live page's ctl with run/ pinned here, so `./ctl up` serves the scene.py beside it.
+# In a checkout it goes through the checkout's ctl (and its .venv); unzipped anywhere else, through $PYTHON or
+# python3, which needs robosimstudio installed.
+here="$(cd "$(dirname "$0")" && pwd)"
+live="$here/../../ctl"
+if [ -x "$live" ]; then exec "$live" --run-dir "$here/run" "$@"; fi
+exec "${PYTHON:-python3}" -m robosimstudio_real2sim_agent --run-dir "$here/run" "$@"
